@@ -29,6 +29,7 @@ from lavis.processors.clip_processors import ClipImageTrainProcessor
 from lavis.processors.audio_processors import BeatsAudioProcessor
 from lavis.processors.ulip_processors import ULIPPCProcessor
 from lavis.processors.instruction_text_processors import BlipInstructionProcessor
+from lavis.processors.beit_processors import BeitQuestionProcessor
 
 from lavis.common.registry import registry
 
@@ -55,6 +56,8 @@ __all__ = [
     "BeatsAudioProcessor",
     # 3D
     "ULIPPCProcessor",
+    #BEiT
+    "BeitQuestionProcessor",
 ]
 
 

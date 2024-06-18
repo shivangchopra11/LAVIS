@@ -1,0 +1,38 @@
+ # Copyright (c) 2022, salesforce.com, inc.
+ # All rights reserved.
+ # SPDX-License-Identifier: BSD-3-Clause
+ # For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
+
+model:
+  arch: beit3_vqa
+  load_finetuned: True
+
+  finetuned: "https://github.com/addf400/files/releases/download/beit3/beit3_base_patch16_224.pth"
+  pretrained: "https://github.com/addf400/files/releases/download/beit3/beit3_base_patch16_480_vqa.pth"
+  pretrained_path: "LAVIS/lavis/models/beit_models/pretrained/beit3_base_patch16_480_vqa.pth"
+  sentencepiece_model: "lavis/models/beit_models/beit3.spm"
+
+  # vit encoder
+  vit_type: "base"
+  vit_grad_ckpt: False
+  vit_ckpt_layer: 0
+  vit_drop_path_rate: 0.1
+
+  image_size: 480
+
+  # bert config
+  med_config_path: "configs/models/med_config.json"
+
+preprocess:
+    vis_processor:
+        train:
+          name: "blip_image_train"
+          image_size: 480
+        eval:
+          name: "blip_image_eval"
+          image_size: 480
+    text_processor:
+        train:
+          name: "beit_question"
+        eval:
+          name: "beit_question"

@@ -50,6 +50,8 @@ from lavis.models.med import XBertLMHeadDecoder
 from lavis.models.vit import VisionTransformerEncoder
 from lavis.models.clip_models.model import CLIP
 
+from lavis.models.beit_models.beit3_vqa import BEiT3ForVisualQuestionAnswering
+
 from lavis.models.gpt_models.gpt_dialogue import GPTDialogue
 
 from lavis.processors.base_processor import BaseProcessor
@@ -91,6 +93,7 @@ __all__ = [
     "VisionTransformerEncoder",
     "XBertLMHeadDecoder",
     "GPTDialogue",
+    "BEiT3ForVisualQuestionAnswering"
 ]
 
 
