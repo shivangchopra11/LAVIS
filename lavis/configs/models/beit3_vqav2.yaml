@@ -9,8 +9,8 @@ model:
 
   finetuned: "https://github.com/addf400/files/releases/download/beit3/beit3_base_patch16_224.pth"
   pretrained: "https://github.com/addf400/files/releases/download/beit3/beit3_base_patch16_480_vqa.pth"
-  pretrained_path: "LAVIS/lavis/models/beit_models/pretrained/beit3_base_patch16_480_vqa.pth"
-  sentencepiece_model: "lavis/models/beit_models/beit3.spm"
+  pretrained_path: "third_party/LAVIS/lavis/models/beit_models/pretrained/beit3_base_patch16_480_vqa.pth"
+  sentencepiece_model: "third_party/LAVIS/lavis/models/beit_models/beit3.spm"
 
   # vit encoder
   vit_type: "base"

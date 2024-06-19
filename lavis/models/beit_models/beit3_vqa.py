@@ -77,7 +77,7 @@ class BEiT3ForVisualQuestionAnswering(BEiT3Wrapper):
 
         self.tokenizer = self.init_tokenizer()
 
-        self.ans2label_file = '/home/shivang/Desktop/GaTech/thesis/LAVIS/data/coco/images/answer2label.txt'
+        self.ans2label_file = '/home/shivang/Desktop/GaTech/thesis/VQA/data/coco/images/answer2label.txt'
         self.label2ans = []
         self.ans2label = {}
         with open(self.ans2label_file, mode="r", encoding="utf-8") as reader:
@@ -102,7 +102,7 @@ class BEiT3ForVisualQuestionAnswering(BEiT3Wrapper):
     
     @classmethod
     def init_tokenizer(cls):
-        tokenizer = XLMRobertaTokenizer("LAVIS/lavis/models/beit_models/beit3.spm")
+        tokenizer = XLMRobertaTokenizer("third_party/LAVIS/lavis/models/beit_models/beit3.spm")
         return tokenizer
     
     @classmethod
@@ -118,7 +118,7 @@ class BEiT3ForVisualQuestionAnswering(BEiT3Wrapper):
     def predict_answers(
         self,
         samples,
-        device,
+        device='cuda',
         inference_method="rank",
         **kwargs
     ):
@@ -159,12 +159,10 @@ class BEiT3ForVisualQuestionAnswering(BEiT3Wrapper):
             ['Singapore']
         ```
         """
-        samples = merge_batch_tensors_by_dict_key(samples)
-        image = samples['image'].to(device)
-        question = samples['question'].to(device)
-        padding_mask = samples['padding_mask'].to(device)
+        image = samples['image']
+        question = samples['text_input']
+        padding_mask = samples['mask']
         logits = self.forward(image, question, padding_mask)
-        print(logits)
         _, preds = logits.max(-1)
         answers = []
         for pred in preds:

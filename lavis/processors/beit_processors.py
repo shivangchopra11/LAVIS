@@ -20,7 +20,7 @@ from transformers import XLMRobertaTokenizer
 @registry.register_processor("beit_question")
 class BeitQuestionProcessor(BaseProcessor):
     def __init__(self):
-        self.tokenizer = XLMRobertaTokenizer("LAVIS/lavis/models/beit_models/beit3.spm")
+        self.tokenizer = XLMRobertaTokenizer("third_party/LAVIS/lavis/models/beit_models/beit3.spm")
         self.bos_token_id = self.tokenizer.bos_token_id
         self.eos_token_id = self.tokenizer.eos_token_id
         self.pad_token_id = self.tokenizer.pad_token_id
