@@ -50,7 +50,8 @@ class Pooler(nn.Module):
 @registry.register_model("beit3_vqa")
 class BEiT3ForVisualQuestionAnswering(BEiT3Wrapper):
     PRETRAINED_MODEL_CONFIG_DICT = {
-        "vqav2": "configs/models/beit3_vqav2.yaml",
+        "vqav2": "configs/models/beit/beit3_vqav2.yaml",
+        "clevr": "configs/models/beit/beit3_vqav2.yaml",
     }
     def __init__(
             self, 
@@ -162,6 +163,9 @@ class BEiT3ForVisualQuestionAnswering(BEiT3Wrapper):
         image = samples['image']
         question = samples['text_input']
         padding_mask = samples['mask']
+        image = torch.tensor(image).to('cuda')
+        question = torch.tensor(question).to('cuda')
+        padding_mask = torch.tensor(padding_mask).to('cuda')
         logits = self.forward(image, question, padding_mask)
         _, preds = logits.max(-1)
         answers = []

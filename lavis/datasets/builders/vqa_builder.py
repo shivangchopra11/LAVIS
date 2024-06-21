@@ -17,6 +17,7 @@ from lavis.datasets.datasets.ocr_datasets import OCRVQADataset, OCRVQAInstructDa
 from lavis.datasets.datasets.vizwiz_vqa_datasets import VizWizEvalDataset
 
 from lavis.datasets.datasets.beit_vqa_datasets import BEiTVQADataset, BEiTVQAEvalDataset
+from lavis.datasets.datasets.clevr_datasets import CLEVRVQADataset, CLEVRVQAEvalDataset
 
 @registry.register_builder("coco_vqa")
 class COCOVQABuilder(BaseDatasetBuilder):
@@ -151,13 +152,23 @@ class VizWizVQABuilder(BaseDatasetBuilder):
     DATASET_CONFIG_DICT = {"default": "configs/datasets/vizwiz/defaults.yaml"}
 
 @registry.register_builder("beit_vqa")
-class COCOVQABuilder(BaseDatasetBuilder):
+class BEiTVQABuilder(BaseDatasetBuilder):
     train_dataset_cls = BEiTVQADataset
     eval_dataset_cls = BEiTVQAEvalDataset
 
     DATASET_CONFIG_DICT = {
         "default": "configs/datasets/beit/defaults_vqa.yaml",
         "eval": "configs/datasets/beit/eval_vqa.yaml",
+    }
+
+@registry.register_builder("clevr_vqa")
+class CLEVRBuilder(BaseDatasetBuilder):
+    train_dataset_cls = CLEVRVQADataset
+    eval_dataset_cls = CLEVRVQAEvalDataset
+
+    DATASET_CONFIG_DICT = {
+        "default": "configs/datasets/clevr/clevr_vqa.yaml",
+        "eval": "configs/datasets/clevr/clevr_vqa_eval.yaml",
     }
 
 

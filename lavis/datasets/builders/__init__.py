@@ -81,7 +81,9 @@ from lavis.datasets.builders.vqa_builder import (
     ScienceQAInstructBuilder,
     OCRVQABuilder,
     OCRVQAInstructBuilder,
-    VizWizVQABuilder
+    VizWizVQABuilder,
+    BEiTVQABuilder,
+    CLEVRBuilder
 )
 from lavis.datasets.builders.retrieval_builder import (
     MSRVTTRetrievalBuilder,
@@ -222,8 +224,13 @@ __all__ = [
 
     # DisCRN
     "DiscrnImagePcBuilder",
-    "DiscrnAudioVideoBuilder"
-
+    "DiscrnAudioVideoBuilder",
+    
+    #BEiT
+    "BEiTVQABuilder",
+    
+    #CLEVR
+    "CLEVRBuilder"
 ]
 
 

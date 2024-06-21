@@ -116,6 +116,14 @@ class VQATask(BaseTask):
                                 convert_to_coco_gt(dataset, self.ques_files[split], self.anno_files[split], split, self.sample_id_key)
                             except:
                                 pass # tasks like vizwiz with no gt answer
+                    else:
+                        if f'{ds_name}_{split}_questions.json' not in self.ques_files[split]:
+                            try:
+                                self.ques_files[split] = os.path.join(registry.get_path("cache_root"),f'{ds_name}_gt', f'{ds_name}_{split}_questions.json')
+                                self.anno_files[split] = os.path.join(registry.get_path("cache_root"), f'{ds_name}_gt', f'{ds_name}_{split}_annotations.json')
+                                convert_clevr_to_coco_gt(dataset, self.ques_files[split], self.anno_files[split], split, self.sample_id_key)
+                            except:
+                                pass
                 try:
                     self.answer_list = dataset[split].answer_list
                 except AttributeError:
@@ -224,6 +232,37 @@ def convert_to_coco_gt(data, outpath_questions, outpath_annotations, split, samp
             "image_id": ann[sample_id_key], 
             "question_id": ques_id,
             "answer_type": "" if "answer_type" not in ann else ann["answer_type"],
+        })
+       
+    json.dump(questions_data, open(outpath_questions, 'w'))
+    print(f"Saved questions data at {outpath_questions}")
+    json.dump(annotations_data, open(outpath_annotations, 'w'))
+    print(f"Saved annotation data at {outpath_annotations}")
+
+def convert_clevr_to_coco_gt(data, outpath_questions, outpath_annotations, split, sample_id_key):
+    if split not in data:
+        return
+    questions_data = {'info':"", 'task_type':"", 'data_type':"", 'license':"", 'data_subtype':"", 'questions':[]}
+    annotations_data = {'info':"", 'task_type':"", 'data_type':"", 'license':"", 'data_subtype':"", 'annotations':[]}
+    print("Generating ground truth annotations...")
+    for ann in tqdm(data[split]):
+        if ann == None:
+            continue
+        # if ann[sample_id_key] not in img_ids:
+        #     continue
+        ques_id = ann["question_id"]
+        ques_id = int(ques_id.item()) if isinstance(ques_id, torch.Tensor) else ques_id
+        if ques_id != int and is_convertible_to_int(ques_id):
+            ques_id = int(ques_id)
+        questions_data["questions"].append({"question": ann["question"], "image_id": ann[sample_id_key], "question_id": ques_id, "image_filename": ann["image_filename"]})
+        annotations_data["annotations"].append({
+            "question_type": "" if "question_type" not in ann else ann["question_type"],
+            "multiple_choice_answer": ann["answers"][0] if isinstance(ann["answers"], list) else ann["answers"],
+            "answers": [{"answer":ann["answers"], "answer_id":0}, {"answer":ann["answers"], "answer_id":1}], 
+            "image_id": ann[sample_id_key], 
+            "question_id": ques_id,
+            "answer_type": "" if "answer_type" not in ann else ann["answer_type"],
+            "image_filename": ann["image_filename"]
         })
        
     json.dump(questions_data, open(outpath_questions, 'w'))
